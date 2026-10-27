@@ -12,7 +12,7 @@
 
 Construí a **Régua**, um sistema web que o vendedor abre na segunda-feira e sabe onde focar, por quê, e o que largar. Antes de pontuar, testei os dados: **neste CRM ninguém consegue prever ganho vs. perda** (produto, setor, porte e vendedor ficam dentro do ruído estatístico; backtest com AUC ≈ 0,5). O que dá para saber é o valor de cada deal e quais estão mortos: **nenhum dos 6.711 deals fechados levou mais de 138 dias, e 81% dos deals em Engaging já passaram disso — 64% do valor do pipeline aberto**. A Régua prioriza pelo valor esperado, tira os parados da pauta para uma fila de revisão e explica cada score com um "recibo" que fecha a conta. Um Agente Gestor (Claude) responde perguntas sobre o pipeline, restrito aos dados, e um Radar avisa o que exige ação sem ninguém perguntar.
 
-**App:** _URL pública pendente_ · **Código:** [`solution/`](./solution/) · **Process log:** [`process-log/PROCESS_LOG.md`](./process-log/PROCESS_LOG.md)
+**App:** https://regua-lead-scorer.vercel.app · **Código:** [`solution/`](./solution/) · **Process log:** [`process-log/PROCESS_LOG.md`](./process-log/PROCESS_LOG.md)
 
 ---
 

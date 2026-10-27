@@ -127,3 +127,15 @@ Ficaram de fora as skills duplicadas ou fora do escopo: `bencium-impact-designer
 - **Bug encontrado pelo teste:** se o modelo citasse o mesmo deal com caixa diferente (`1LY8CAXD` e `1ly8caxd`), a tabela mostrava o deal duplicado. Corrigido: a deduplicação acontece depois de normalizar o código.
 - **No navegador, sem chave:** o Radar mostra 5 alertas, o chat fica oculto com o aviso para configurar, a API responde 401, e "Testar conexão" vazio avisa para informar a chave. Os links do Radar filtram certo, e o Radar por vendedor recalcula.
 - **Ajuste de texto:** "X dos 20 deals prioritários" passou a usar o número real quando o vendedor tem menos de 20 deals ativos.
+
+---
+
+## Fase 6 — Fechamento (27/10/2026)
+
+- **README final** seguindo o template do G4, com achados, recomendações, limitações e o tempo real (~8h30, acima da meta, com justificativa).
+- **Deploy na Vercel**, feito pelo Claude no meu Chrome. As etapas de autenticação (login, conexão do GitHub, código por e-mail) foram minhas.
+  - O app da Vercel foi instalado no GitHub **só no fork**.
+  - Problema: a Vercel lia a barra de `submission/renan` como pasta. Solução: uma branch espelho sem barra (`regua-deploy`), com root `submissions/renan/solution`.
+  - Confusão resolvida: "Dev-sales-renan" e "salesDevRenan" são a mesma conta (nome de exibição vs. usuário), conferido pelo ID na API do GitHub.
+  - Resultado: https://regua-lead-scorer.vercel.app. As 8 rotas respondem 200, sem login, e o agente sem chave responde 401 como esperado.
+- **Regra do G4 conferida:** nenhum arquivo fora de `submissions/renan` foi alterado.
