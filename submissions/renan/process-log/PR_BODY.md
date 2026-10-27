@@ -3,8 +3,8 @@
 **Régua**: um sistema que o vendedor abre na segunda-feira e sabe onde focar, por quê e o que largar.
 
 - **App:** https://regua-lead-scorer.vercel.app
-- **README da submissão:** [`submissions/renan/README.md`](submissions/renan/README.md)
-- **Process log:** [`submissions/renan/process-log/PROCESS_LOG.md`](submissions/renan/process-log/PROCESS_LOG.md) + histórico de commits desta branch
+- **README da submissão:** [`submissions/renan/README.md`](https://github.com/salesDevRenan/ai-master-challenge/blob/submission/renan/submissions/renan/README.md)
+- **Process log:** [`submissions/renan/process-log/PROCESS_LOG.md`](https://github.com/salesDevRenan/ai-master-challenge/blob/submission/renan/submissions/renan/process-log/PROCESS_LOG.md) + histórico de commits desta branch
 
 ### Em uma frase
 
