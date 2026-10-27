@@ -33,6 +33,8 @@ export interface Filters {
   office?: string;
   product?: string;
   momentum?: Momentum;
+  /** Busca livre por código do deal, conta, vendedor ou produto. */
+  query?: string;
 }
 
 type RawParams = Record<string, string | string[] | undefined>;
@@ -43,6 +45,12 @@ const pick = (params: RawParams, key: string, allowed: readonly string[]) => {
   return single && allowed.includes(single) ? single : undefined;
 };
 
+const text = (params: RawParams, key: string) => {
+  const value = params[key];
+  const single = (Array.isArray(value) ? value[0] : value)?.trim();
+  return single ? single.slice(0, 80) : undefined;
+};
+
 /** Lê filtros da URL, ignorando valores que não existem no dataset. */
 export function parseFilters(params: RawParams): Filters {
   return {
@@ -51,17 +59,20 @@ export function parseFilters(params: RawParams): Filters {
     office: pick(params, "escritorio", options.offices),
     product: pick(params, "produto", options.products),
     momentum: pick(params, "momento", MOMENTUM_ORDER) as Momentum | undefined,
+    query: text(params, "q"),
   };
 }
 
 export function applyFilters(deals: ScoredDeal[], f: Filters): ScoredDeal[] {
+  const q = f.query?.toLocaleLowerCase("pt-BR");
   return deals.filter(
     (s) =>
       (!f.agent || s.deal.agent === f.agent) &&
       (!f.manager || s.deal.manager === f.manager) &&
       (!f.office || s.deal.regionalOffice === f.office) &&
       (!f.product || s.deal.product === f.product) &&
-      (!f.momentum || s.momentum === f.momentum),
+      (!f.momentum || s.momentum === f.momentum) &&
+      (!q || [s.deal.id, s.deal.account ?? "", s.deal.agent, s.deal.product].some((v) => v.toLocaleLowerCase("pt-BR").includes(q))),
   );
 }
 
@@ -73,6 +84,7 @@ export function filterQuery(f: Filters, extra: Record<string, string> = {}): str
   if (f.office) params.set("escritorio", f.office);
   if (f.product) params.set("produto", f.product);
   if (f.momentum) params.set("momento", f.momentum);
+  if (f.query) params.set("q", f.query);
   for (const [k, v] of Object.entries(extra)) params.set(k, v);
   const query = params.toString();
   return query ? `?${query}` : "";

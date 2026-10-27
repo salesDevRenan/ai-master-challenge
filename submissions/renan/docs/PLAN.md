@@ -8,7 +8,7 @@ O G4 recomenda 4–6 h e diz que horas extras não valem pontos. Meta: **≤ 6 h
 | 1 | Dados: download, scaffold, `build-data`, checagens de qualidade | 0:30 | `dataset.json` + achados H4 | ~0:30 |
 | 2 | Exploração + motor de score + backtest | 1:15 | `analyze.ts`, `SCORING.md` e `FINDINGS.md`, testes | ~1:15 |
 | 3 | Direção visual (propostas → escolha → tokens) | 0:30 | `DESIGN.md` seções 3–4 | ~0:50 |
-| 4 | UI: hoje, pipeline, painel do deal, time, metodologia | 2:15 | App rodando | ~1:45 |
+| 4 | UI: hoje, pipeline, painel do deal, time, metodologia (+ refação como sistema) | 2:15 | App rodando | ~2:45 |
 | 5 | Auditoria de design e acessibilidade, ajustes | 0:20 | Correções | _ |
 | 6 | Deploy, README final, process log, PR | 0:40 | URL pública + PR aberto | _ |
 | | **Total** | **6:00** | | _ |

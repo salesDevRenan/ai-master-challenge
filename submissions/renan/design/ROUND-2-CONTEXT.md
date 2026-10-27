@@ -40,3 +40,24 @@ Todos os pares passam em WCAG AA para texto normal (≥ 4,5:1).
 **Riscos.** Disciplina para que as cores de momento não virem etiquetas.
 
 **Round 2.** Tela Hoje: deals posicionados na régua pelos dias abertos. Pipeline: tabela em pares campo/valor, com coluna de dias. Painel do deal como ficha/recibo. Status por cor de momento. Tema e régua conforme as regras acima.
+
+---
+
+## Reabertura (27/10/2026) — pedido explícito do humano
+
+> "Quando falamos de usabilidade, falamos sobre telas e UX. Sistemas. E não uma tela feia crua […]. Pegue [o Kaggle] como referência, adicione menu lateral, faça um sistema mesmo."
+
+**Motivo:** override do humano. A primeira implementação seguiu a regra de "só tipografia" à risca e ficou com cara de página editorial, não de produto.
+
+**O que muda:**
+- **App shell de sistema:** menu lateral com ícones (gaveta no celular), barra superior com busca em pílula, avatar do vendedor e alternância de tema.
+- **Superfícies:** cards com borda fina e cantos arredondados, chips de status, barras de progresso e anéis.
+- **Ícones:** biblioteca de terceiros (Lucide, licença ISC), usada sem modificação. A aprovação do humano está implícita no pedido de ícones e menu, e fica registrada aqui.
+- **Referência estrutural:** o padrão de layout da tela inicial do Kaggle, enviada pelo humano: menu, busca, boas-vindas com indicadores à direita e cards de estatística. Nada de marca, ícones ou textos do Kaggle é reproduzido.
+
+**O que fica (invariantes da E2):**
+- **A régua de 0 a 138 dias:** vira um componente visual em cada deal (trilho, marcos de 14, 88 e 138 dias, e um marcador no dia atual), mais o indicador textual `95/138`.
+- **Os 4 papéis de cor:** primária, secundária, momento (verde-petróleo) e parado (ferrugem no claro, amarelo no escuro).
+- **Modo escuro:** azul-marinho da G.
+- **Tipografia:** Space Grotesk para decisões, Martian Mono para registros do CRM.
+- **Ordem de leitura:** a decisão vem primeiro.

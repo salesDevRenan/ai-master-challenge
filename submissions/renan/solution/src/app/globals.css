@@ -1,45 +1,73 @@
 @import "tailwindcss";
 
 /*
- * Direção E2 (design/ROUND-2-CONTEXT.md): régua de 0 a 138 dias, 4 papéis de cor
- * com o mesmo significado nos dois temas, grotesca para decisão e mono para
- * registro do CRM. Fontes e layout não mudam entre os temas; só a paleta.
+ * Direção E2 (design/ROUND-2-CONTEXT.md), reaberta como sistema: app shell com
+ * menu lateral e superfícies, mantendo a régua de 0 a 138 dias e os 4 papéis de
+ * cor com o mesmo significado nos dois temas (claro da E, escuro azul-marinho da G).
  */
 :root {
   color-scheme: light;
-  --ground: #f0f2f5;
+  --ground: #f4f5f7;
+  --surface: #ffffff;
+  --line: #e4e7eb;
+  --hover: #f1f3f5;
+  --selected: #ecf1f6;
   --primary: #12151a;
   --secondary: #5a6372;
   --moment: #00736c;
+  --moment-soft: #e2f2f0;
   --stalled: #c2410c;
+  --stalled-soft: #fcebe3;
+  --track: #e4e7eb;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --ground: #10283f;
+    --ground: #0b2135;
+    --surface: #10283f;
+    --line: #21405e;
+    --hover: #15314c;
+    --selected: #1a3a59;
     --primary: #e4ecf3;
-    --secondary: #7fa2c2;
+    --secondary: #8fb0cd;
     --moment: #5fd4c4;
+    --moment-soft: #123f48;
     --stalled: #f2c14e;
+    --stalled-soft: #3b3420;
+    --track: #21405e;
   }
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --ground: #10283f;
+  --ground: #0b2135;
+  --surface: #10283f;
+  --line: #21405e;
+  --hover: #15314c;
+  --selected: #1a3a59;
   --primary: #e4ecf3;
-  --secondary: #7fa2c2;
+  --secondary: #8fb0cd;
   --moment: #5fd4c4;
+  --moment-soft: #123f48;
   --stalled: #f2c14e;
+  --stalled-soft: #3b3420;
+  --track: #21405e;
 }
 
 @theme inline {
   --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-hover: var(--hover);
+  --color-selected: var(--selected);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-moment: var(--moment);
+  --color-moment-soft: var(--moment-soft);
   --color-stalled: var(--stalled);
+  --color-stalled-soft: var(--stalled-soft);
+  --color-track: var(--track);
   --font-sans: "Space Grotesk Variable", system-ui, sans-serif;
   --font-mono: "Martian Mono Variable", ui-monospace, monospace;
 }
@@ -55,69 +83,39 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Rótulo de campo do CRM: mono condensada, caixa alta, tracking largo. Utility para aceitar variantes (before:field). */
+/* Rótulo de campo do CRM: mono condensada, caixa alta. Utility para aceitar variantes. */
 @utility field {
   font-family: var(--font-mono);
   font-stretch: 75%;
-  font-size: 12px;
-  font-weight: 450;
-  letter-spacing: 0.14em;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--secondary);
 }
 
-@layer components {
-  /* Código do deal: mono larga e leve. */
-  .deal-id {
-    font-family: var(--font-mono);
-    font-stretch: 112.5%;
-    font-weight: 250;
-    letter-spacing: 0.04em;
-    color: var(--secondary);
-  }
+/* Código do deal: mono larga e leve. */
+@utility deal-id {
+  font-family: var(--font-mono);
+  font-stretch: 100%;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
 
-  /*
-   * Régua de dias: o recuo é proporcional a --d (0–138) dentro da largura que
-   * sobra além do conteúdo (--ruler-content). Desligada abaixo de 720 px; o
-   * indicador textual (ex.: 95/138) carrega o mesmo significado.
-   */
-  .ruler {
-    --ruler-content: 30rem;
-    padding-inline-start: 0;
-  }
-  @media (min-width: 720px) {
-    .ruler {
-      padding-inline-start: max(0px, calc((100% - var(--ruler-content)) * var(--d, 0) / 138));
-    }
-  }
-
-  .link {
-    text-decoration-line: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.2em;
-  }
-  .link:hover {
-    text-decoration-thickness: 2px;
-  }
-
-  .control {
-    font-family: var(--font-sans);
-    font-size: 16px;
-    color: var(--primary);
-    background: transparent;
-    border-bottom: 1px solid var(--secondary);
-    padding: 8px 0;
-    min-height: 44px;
-  }
-  .control option {
-    background: var(--ground);
-    color: var(--primary);
-  }
+@utility card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
 }
 
 :focus-visible {
   outline: 2px solid var(--moment);
-  outline-offset: 3px;
+  outline-offset: 2px;
+}
+
+select {
+  appearance: none;
+  background-image: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -89,3 +89,19 @@ Ficaram de fora as skills duplicadas ou fora do escopo: `bencium-impact-designer
 - O texto de ação "Empurrar o fechamento: 75% fecham até o 88º dia" ficava estranho para um deal com 127 dias. Agora inclui "e nenhum depois do 138º".
 
 **3. Verificação:** build de produção, 15 testes, lint e tipos ok. Telas conferidas no Chrome (desktop, claro e escuro) e no navegador do app em 375 px, sem rolagem horizontal em nenhuma rota. O recibo do deal `1LY8CAXD` fecha a conta: 63,2% + 7,5 pp + 0,1 pp = 70,8%.
+
+## Fase 4b — De página para sistema (27/10/2026)
+
+**1. Minha crítica.** A primeira versão das telas seguia a direção E2 à risca (só tipografia e espaço) e ficou com cara de página editorial, não de produto. Pedi um sistema de verdade: menu lateral, busca, cards, indicadores, usando a tela inicial do Kaggle como referência de padrão de layout.
+
+**2. O que o Claude fez:**
+- Registrou a reabertura do design em `design/ROUND-2-CONTEXT.md`, com o motivo, o que muda e o que permanece da E2.
+- Reconstruiu a interface como app shell: menu lateral com ícones e contador de parados (gaveta no celular, fecha com Esc), barra superior com busca global (código, conta, vendedor ou produto), tema com ícone.
+- Hoje virou um dashboard: boas-vindas com valor esperado e anel de "% do pipeline parado", 4 cards de indicador e a pauta em cards com chance, valor esperado e a **régua de dias como componente** (trilho de 0 a 138 com marcos em 14, 88 e 138).
+- Pipeline e a nova rota **Parados** passaram a compartilhar uma tabela em card com filtros em pílula.
+- O Deal ganhou trilha de navegação, cabeçalho com score e valor, ação em destaque, régua com legendas e o recibo com barras por fator.
+- Time e Metodologia passaram a usar cards, barras e avatares.
+
+**3. Mantido da E2:** a régua, os 4 papéis de cor, o modo escuro azul-marinho e as duas fontes. Nada de marca do Kaggle foi usado, só o padrão estrutural. Ícones: Lucide (ISC).
+
+**4. Verificação:** build, 15 testes, lint e tipos ok. Conferido no Chrome nos temas claro e escuro, e em 375 px: nenhuma rota tem rolagem horizontal, e o menu em gaveta abre. Um ajuste encontrado na revisão visual: o rótulo "0" da régua colidia com o marco de 14 dias e foi removido.

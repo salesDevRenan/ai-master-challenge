@@ -25,13 +25,18 @@
 - **Elemento memorável:** a página é uma régua de 0 a 138 dias. Cada deal fica posicionado no dia em que está, e os parados ficam além do limite.
 - **Arquivos:** `design/round-1/` (A–J, E2 e as fichas de cada direção) e `design/ROUND-2-CONTEXT.md` (regras que governam as telas).
 
+### 3.1 Reabertura: de página para sistema
+
+A pedido meu, a interface virou um sistema com app shell, no padrão de produtos como o Kaggle: menu lateral, busca, cards e indicadores. A régua passou a ser um componente visual em cada deal. Detalhes em `design/ROUND-2-CONTEXT.md`, seção "Reabertura".
+
 ## 4. Tokens
 
 Fonte da verdade: `solution/src/app/globals.css`. Resumo:
 
 | Papel | Claro | Escuro |
 |---|---|---|
-| Fundo | #F0F2F5 | #10283F |
+| Fundo da página | #F4F5F7 | #0B2135 |
+| Superfície (cards, menu) | #FFFFFF | #10283F |
 | Primária | #12151A | #E4ECF3 |
 | Secundária | #5A6372 | #7FA2C2 |
 | Momento | #00736C | #5FD4C4 |
