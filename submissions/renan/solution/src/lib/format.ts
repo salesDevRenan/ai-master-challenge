@@ -21,3 +21,10 @@ export const count = (n: number) => n.toLocaleString("pt-BR");
 
 /** 2017-12-31 → 31/12/2017 */
 export const dateBr = (iso: string) => iso.split("-").reverse().join("/");
+
+/** US$ 3,2 mi / US$ 184 mil */
+export const usdCompact = (value: number) => {
+  if (value >= 1_000_000) return `US$\u00a0${(value / 1_000_000).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}\u00a0mi`;
+  if (value >= 1_000) return `US$\u00a0${Math.round(value / 1_000).toLocaleString("pt-BR")}\u00a0mil`;
+  return usd(value);
+};

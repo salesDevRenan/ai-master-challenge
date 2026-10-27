@@ -103,3 +103,8 @@ export function summarize(deals: ScoredDeal[]) {
     withoutAccount: deals.filter((s) => s.deal.account === null).length,
   };
 }
+
+/** Ciclo (engajamento → fechamento, em dias) de todos os deals já fechados. */
+export const closedCycles: number[] = dataset.deals
+  .filter((d) => (d.stage === "Won" || d.stage === "Lost") && d.engageDate && d.closeDate)
+  .map((d) => Math.round((Date.parse(d.closeDate!) - Date.parse(d.engageDate!)) / 86_400_000));

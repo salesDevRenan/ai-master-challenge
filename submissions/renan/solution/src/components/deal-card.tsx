@@ -10,7 +10,7 @@ export function DealCard({ scored, rank }: { scored: ScoredDeal; rank: number })
   const { deal } = scored;
   return (
     <li>
-      <Link href={`/deal/${deal.id}`} className="card group flex h-full flex-col p-5 transition-colors hover:border-secondary/50">
+      <Link href={`/deal/${deal.id}`} className="card group flex h-full flex-col p-5 transition-[transform,box-shadow,border-color] hover:-translate-y-0.5 hover:border-secondary/50 hover:shadow-md motion-reduce:hover:translate-y-0">
         <div className="flex items-start gap-3">
           <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-hover font-mono text-[13px] font-semibold text-secondary tabular-nums">
             {String(rank).padStart(2, "0")}

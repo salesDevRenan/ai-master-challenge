@@ -2,6 +2,7 @@ import { ArrowRight, Flag, Hourglass, Sprout, Target } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { DealCard } from "@/components/deal-card";
+import { StalledPanel } from "@/components/stalled-panel";
 import { asOptions, SelectField, SubmitButton } from "@/components/select-field";
 import { PageHeader, Ring, SectionTitle, StatCard } from "@/components/ui";
 import { count, usd } from "@/lib/format";
@@ -64,7 +65,7 @@ async function Today({ searchParams }: { searchParams: PageProps<"/">["searchPar
           </form>
         </div>
 
-        <div className="flex flex-wrap items-center justify-start gap-10 xl:justify-end">
+        <div className="card flex flex-wrap items-center justify-around gap-10 px-8 py-6">
           <div className="text-center">
             <p className="text-[13px] font-semibold">Valor esperado ativo</p>
             <p className="mt-3 text-[34px] leading-none font-bold tracking-[-0.03em] tabular-nums">{usd(activeExpectedValue)}</p>
@@ -129,30 +130,7 @@ async function Today({ searchParams }: { searchParams: PageProps<"/">["searchPar
         )}
       </section>
 
-      {stalled.length > 0 && (
-        <section aria-labelledby="revisao" className="card flex flex-wrap items-center justify-between gap-6 border-stalled/30 bg-stalled-soft p-6">
-          <div className="flex items-start gap-4">
-            <span className="grid size-11 shrink-0 place-items-center rounded-full bg-surface text-stalled">
-              <Hourglass className="size-5" aria-hidden />
-            </span>
-            <div>
-              <h2 id="revisao" className="text-[18px] font-semibold text-stalled">
-                {count(stalled.length)} deals parados há mais de {history.maxCycle} dias
-              </h2>
-              <p className="mt-1 max-w-[62ch] text-[14px] text-primary">
-                Nenhum dos {count(history.closedDeals)} deals já fechados levou mais que {history.maxCycle} dias. Revisar essa fila libera
-                tempo e limpa a previsão.
-              </p>
-            </div>
-          </div>
-          <Link
-            href={`/parados${filterQuery({ agent })}`}
-            className="inline-flex h-11 items-center gap-2 rounded-full bg-stalled px-5 text-[15px] font-semibold text-surface hover:opacity-90"
-          >
-            Revisar fila <ArrowRight className="size-4" aria-hidden />
-          </Link>
-        </section>
-      )}
+      {stalled.length > 0 && <StalledPanel stalled={stalled} stalledValueShare={stalledValueShare} href={`/parados${filterQuery({ agent })}`} />}
     </div>
   );
 }

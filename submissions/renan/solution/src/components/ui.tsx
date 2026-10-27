@@ -44,9 +44,9 @@ export function StatCard({
       {caption && <p className="mt-2 text-[13px] text-secondary">{caption}</p>}
     </>
   );
-  const className = "card block p-5 transition-colors";
+  const className = "card block p-5 transition-[transform,box-shadow,border-color]";
   return href ? (
-    <Link href={href} className={`${className} hover:border-secondary/50`}>
+    <Link href={href} className={`${className} hover:-translate-y-0.5 hover:border-secondary/50 hover:shadow-md motion-reduce:hover:translate-y-0`}>
       {body}
     </Link>
   ) : (
