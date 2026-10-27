@@ -39,12 +39,28 @@ Para deals em **Prospecting** (sem `engage_date`): não há relógio; o score us
 | H1 | As features "óbvias" (produto, setor, porte) variam pouco a taxa de vitória | Taxa por segmento + intervalo de confiança | _pendente_ |
 | H2 | O tempo no pipeline separa ganhos de perdidos melhor que as outras features | Distribuição de ciclo Won vs Lost | _pendente_ |
 | H3 | O desempenho do vendedor (e vendedor × produto) é um sinal relevante | Taxa por vendedor com suavização | _pendente_ |
-| H4 | Há problemas de qualidade (nome de produto divergente, deals sem conta, datas faltando) | Checagens no `build-data` | _pendente_ |
+| H4 | Há problemas de qualidade (nome de produto divergente, deals sem conta, datas faltando) | Checagens no `build-data` | **Confirmada** — ver seção 5.1 |
 | H5 | O score final ordena melhor que "ordenar por valor" | Backtest temporal (seção 6) | _pendente_ |
 
 ## 5. Achados da exploração
 
-_Preenchido após `npm run analyze`. Cada número aqui deve ser reproduzível pelo script._
+_Cada número aqui deve ser reproduzível por `npm run data` ou `npm run analyze`._
+
+### 5.1 Qualidade dos dados (`npm run data`)
+
+Base: 8.800 deals — 4.238 Won, 2.473 Lost, 1.589 Engaging, 500 Prospecting. Taxa de vitória histórica: **63,2%**. Data de referência ("hoje"): **31/12/2017**, a maior data do pipeline.
+
+| Problema | Deals/linhas | Tratamento |
+|---|---|---|
+| Produto "GTXPro" no pipeline vs. "GTX Pro" no catálogo | 1.480 | Unificado; sem isso, 17% dos deals ficariam sem preço |
+| Setor "technolgy" | 12 contas | Corrigido para "technology" |
+| **Deals abertos sem conta** | **1.425 de 2.089 (68%)** | Ver implicação abaixo |
+| Prospecting sem data de engajamento | 500 (todos) | Sem relógio de urgência |
+| Vendedores sem nenhum deal | 5 | Fora dos rankings |
+
+Todos os deals fechados têm conta; Lost sempre tem `close_value` = 0.
+
+**Implicação para o score:** setor e porte da conta só existem para 32% do pipeline aberto. Um score que dependa desses fatores pontuaria a maioria dos deals com dado faltando. Por isso, **conta é um fator opcional**: quando ausente, ele simplesmente não soma nem subtrai, e a interface mostra "conta não informada no CRM" como uma ação de higiene para o vendedor. O núcleo do score precisa vir de fatores que existem para todos os deals abertos: produto, vendedor, escritório e tempo.
 
 ## 6. Validação (backtest)
 

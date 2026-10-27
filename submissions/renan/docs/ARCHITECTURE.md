@@ -47,8 +47,8 @@ submissions/renan/
 │   └── chat-exports/
 └── solution/                  ← app Next.js
     ├── data/
-    │   ├── raw/               ← 4 CSVs do Kaggle, sem alteração
-    │   └── generated/         ← saída do build de dados (gitignored)
+    │   ├── raw/               ← CSVs do Kaggle, sem alteração
+    │   └── generated/         ← dataset.json gerado por `npm run data` (gitignored)
     ├── scripts/
     │   ├── build-data.ts      ← CSV → valida → normaliza → enriquece → JSON
     │   └── analyze.ts         ← exploração + backtest → docs/FINDINGS.md
@@ -69,7 +69,7 @@ data/raw/*.csv
    │  scripts/build-data.ts  (roda no `prebuild` e no `predev`)
    ▼
 1. Parse (papaparse) + validação (Zod)  → erros de schema param o build
-2. Normalização                          → ex.: nomes de produto divergentes entre tabelas [A VALIDAR]
+2. Normalização                          → "GTXPro" → "GTX Pro", "technolgy" → "technology"
 3. Join                                  → deal + conta + produto + vendedor/manager/escritório
 4. Estatísticas históricas               → taxas de vitória e ciclos, só com deals fechados
 5. Scoring dos deals abertos             → score, valor esperado, fatores explicativos
@@ -77,7 +77,7 @@ data/raw/*.csv
 data/generated/pipeline.json  →  lido por Server Components  →  UI
 ```
 
-**Data de referência ("hoje").** O dataset termina em uma data fixa no passado. O sistema usa como "hoje" a maior data presente nos dados (configurável em `src/domain/config.ts`). Isso fica explícito na interface ("Pipeline em 31/12/2017") para ninguém achar que é bug. **[A VALIDAR]** a data exata.
+**Data de referência ("hoje").** O dataset termina em uma data fixa no passado. O sistema usa como "hoje" a maior data presente nos dados (configurável em `src/domain/config.ts`). Isso fica explícito na interface ("Pipeline em 31/12/2017") para ninguém achar que é bug.
 
 **Sem vazamento de informação.** As estatísticas usadas para pontuar deals abertos vêm apenas de deals já fechados. No backtest, as estatísticas são calculadas só com deals fechados **antes** do corte temporal.
 

@@ -11,7 +11,7 @@ Leia antes de mexer: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/SCORING
 ## Regras do repositório (críticas)
 
 - Só alterar arquivos dentro de `submissions/renan/`. PRs que tocam outros arquivos são rejeitados.
-- O `.gitignore` da raiz ignora `submissions/`. Para adicionar arquivos, use `git add -f submissions/renan/...`.
+- O `.gitignore` da raiz ignora `submissions/`. Para adicionar arquivos, rode `sh submissions/renan/git-add.sh`. **Nunca** `git add -f submissions/renan`: isso força o `node_modules` junto.
 - Branch: `submission/renan`. Título do PR: `[Submission] Renan — Challenge 003`.
 - Commits pequenos e descritivos: o histórico do git faz parte do process log.
 

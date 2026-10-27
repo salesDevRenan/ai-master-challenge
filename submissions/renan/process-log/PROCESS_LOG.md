@@ -34,6 +34,14 @@ Ficaram de fora as skills duplicadas ou fora do escopo: `bencium-impact-designer
 
 ---
 
-## Fase 1 — Dados
+## Fase 1 — Dados (27/10/2026)
 
-_..._
+**1. Download.** O Claude baixou o zip do Kaggle pelo Chrome. Na primeira tentativa o Kaggle pediu login, e eu fiz o login manualmente. O zip trouxe também um `metadata.csv` (dicionário de campos), que não é usado pelo app.
+
+**2. Scaffold.** `create-next-app` gerou Next.js 16 + React 19 + Tailwind v4. Vieram dois problemas:
+- O `vitest` 5 exige `@types/node` ≥ 22 e o template trazia a versão 20, o que gerou conflito de peer dependency. Resolvido subindo para `@types/node@24`, em linha com o Node 24 instalado.
+- **Erro do Claude que eu peguei:** para contornar o `.gitignore` da raiz, ele usou `git add -f submissions/renan`, o que forçou também o `node_modules` inteiro no stage (3 MB só de listagem). Desfeito com `git reset`. Criamos o `git-add.sh`, que força só os arquivos que o `.gitignore` da solução não ignoraria.
+
+**3. Perfil dos dados antes de codar.** Antes de escrever o parser, pedi um perfil rápido das 4 tabelas. Ele confirmou a hipótese H4 e trouxe um achado que eu não esperava: **68% dos deals abertos não têm conta associada**. Isso muda o desenho do score: setor e porte da conta não podem ser o núcleo, porque faltam para a maioria do pipeline. Registrado em `docs/SCORING.md` §5.1.
+
+**4. `build-data`.** Parser com validação Zod (erro com arquivo, linha e campo), normalização (GTXPro, technolgy), join das 4 tabelas e relatório de qualidade gerado junto com o dataset. Os testes pegaram um caso de borda real: sem nenhuma data no pipeline, o cálculo da data de referência quebrava com um erro genérico do JavaScript. Agora ele falha com uma mensagem clara.
