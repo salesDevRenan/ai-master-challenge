@@ -122,3 +122,8 @@ Ficaram de fora as skills duplicadas ou fora do escopo: `bencium-impact-designer
 **3. Verificação:** 25 testes, incluindo as ferramentas do agente, a rota (sem chave → 401, modelo fora da lista → 400) e o radar com números conferidos contra o motor. Build e tipos ok. Telas conferidas por texto no Chrome; o screenshot do Chrome travou nessa etapa.
 
 **Não verificado:** a conversa real com a API, porque não há chave neste ambiente. Precisa ser testada com a chave do usuário.
+
+**4. Teste sem chave (a meu pedido).** Como não havia chave, o Claude trocou o cliente da Anthropic por um mock com respostas roteirizadas e testou o agente de ponta a ponta sem rede (9 testes novos, 34 no total): uso das ferramentas, resposta em formato de painel, deals montados pelo motor, erros de chave recusada (401), limite (429), recusa (422), resposta incompleta (502), limite de iterações e Haiku sem fallback.
+- **Bug encontrado pelo teste:** se o modelo citasse o mesmo deal com caixa diferente (`1LY8CAXD` e `1ly8caxd`), a tabela mostrava o deal duplicado. Corrigido: a deduplicação acontece depois de normalizar o código.
+- **No navegador, sem chave:** o Radar mostra 5 alertas, o chat fica oculto com o aviso para configurar, a API responde 401, e "Testar conexão" vazio avisa para informar a chave. Os links do Radar filtram certo, e o Radar por vendedor recalcula.
+- **Ajuste de texto:** "X dos 20 deals prioritários" passou a usar o número real quando o vendedor tem menos de 20 deals ativos.

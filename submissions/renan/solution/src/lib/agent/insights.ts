@@ -103,9 +103,9 @@ export function buildInsights(scope: Pick<Filters, "agent" | "manager"> = {}): I
     insights.push({
       id: "sem-conta",
       severity: "info",
-      title: `${missing} dos 20 deals prioritários estão sem conta no CRM`,
+      title: `${missing} dos ${focus.length} deals prioritários estão sem conta no CRM`,
       detail: "Sem conta, setor e porte ficam fora da análise e o histórico do cliente se perde.",
-      metric: `${missing}/20`,
+      metric: `${missing}/${focus.length}`,
       question: `Quais deals prioritários ${ofWho} estão sem conta cadastrada?`,
       href: `/pipeline${query({ vendedor: scope.agent, manager: scope.manager })}`,
     });

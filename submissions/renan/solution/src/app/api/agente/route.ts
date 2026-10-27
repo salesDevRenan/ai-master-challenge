@@ -119,7 +119,7 @@ export async function POST(request: Request) {
         const { deals, proximas_perguntas, ...rest } = result.data;
         return Response.json({
           ...rest,
-          deals: [...new Set(deals)].map(dealRow).filter((d) => d !== null),
+          deals: [...new Map(deals.map(dealRow).flatMap((d) => (d ? [[d.id, d] as const] : []))).values()],
           proximasPerguntas: proximas_perguntas,
           ferramentas: [...usedTools],
         });
