@@ -108,6 +108,13 @@ Detalhes da lógica e do plano de validação em [SCORING.md](./SCORING.md).
 
 Filtros (vendedor, manager, escritório, stage, produto) vivem na **URL** (`searchParams`): o link é compartilhável e o botão voltar funciona.
 
+## 6.1 Agente Gestor
+
+- `src/lib/agent/insights.ts`: Radar (alertas determinísticos por vendedor ou manager).
+- `src/lib/agent/tools.ts`: 7 ferramentas somente leitura sobre o motor de score, mais a ferramenta `responder` (formato de painel).
+- `src/app/api/agente/route.ts`: loop de tool use com `@anthropic-ai/sdk` (Opus 5.5 por padrão, esforço configurável, fallback de recusa). Escopo restrito aos dados no system prompt.
+- **Chave:** do próprio usuário, salva no navegador e enviada no cabeçalho `x-anthropic-key` a cada pergunta; não é persistida no servidor. Sem chave, o Radar funciona e o chat pede a configuração.
+
 ## 7. Qualidade e produção
 
 - Acessibilidade: navegação por teclado, foco visível, contraste AA, `prefers-reduced-motion` respeitado.

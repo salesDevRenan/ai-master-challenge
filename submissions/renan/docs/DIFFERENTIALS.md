@@ -55,9 +55,12 @@ Cada score é decomposto em fatores somáveis (log-odds convertidos em pontos), 
 
 Inconsistências encontradas no CRM (nomes divergentes, deals sem conta, datas faltando) são tratadas no pipeline de dados **e mostradas** na interface e nos docs. Uma ferramenta de produção não esconde dado sujo; ela avisa.
 
-## 8. O que deliberadamente NÃO fizemos
+## 8. IA onde ela agrega, e só ali
 
-- **Sem LLM gerando a explicação de cada deal.** O texto é determinístico e auditável; um LLM poderia inventar motivo. Saber onde não usar IA também é critério.
+- **A explicação do score continua sem LLM:** é determinística e auditável.
+- **O Agente Gestor é um analista de dados, não um chat genérico.** Ele só fala do pipeline, consulta ferramentas para cada número, e os deals da resposta vêm do motor de score, não do texto do modelo. Fora do escopo, ele redireciona.
+- **O lado ativo (Radar) não usa IA:** alertas calculados, sem custo e sem risco de alucinação. A IA entra para aprofundar.
+- **Cada usuário usa a própria chave da API**, configurada na tela Configurações; a ferramenta não tem chave própria.
 - **Sem modelo de caixa-preta.** Um gradient boosting talvez ganhasse alguns pontos de AUC, mas perderia a explicação, que é o que faz o vendedor confiar.
 - **Sem banco nem login.** Não agregam nada à decisão neste escopo; ficam na seção de escala.
 

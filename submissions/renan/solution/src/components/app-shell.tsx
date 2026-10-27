@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Hourglass, House, Kanban, Menu, Search, Users, X } from "lucide-react";
+import { BookOpen, Bot, Hourglass, House, Kanban, Menu, Search, Settings, Users, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useEffect, useState, type ReactNode } from "react";
@@ -11,7 +11,9 @@ const NAV = [
   { href: "/pipeline", label: "Pipeline", icon: Kanban, match: (p: string) => p.startsWith("/pipeline") },
   { href: "/parados", label: "Parados", icon: Hourglass, match: (p: string) => p.startsWith("/parados") },
   { href: "/time", label: "Time", icon: Users, match: (p: string) => p.startsWith("/time") },
+  { href: "/agente", label: "Agente Gestor", icon: Bot, match: (p: string) => p.startsWith("/agente") },
   { href: "/metodologia", label: "Metodologia", icon: BookOpen, match: (p: string) => p.startsWith("/metodologia") },
+  { href: "/configuracoes", label: "Configurações", icon: Settings, match: (p: string) => p.startsWith("/configuracoes") },
 ] as const;
 
 /**

@@ -105,3 +105,20 @@ Ficaram de fora as skills duplicadas ou fora do escopo: `bencium-impact-designer
 **3. Mantido da E2:** a régua, os 4 papéis de cor, o modo escuro azul-marinho e as duas fontes. Nada de marca do Kaggle foi usado, só o padrão estrutural. Ícones: Lucide (ISC).
 
 **4. Verificação:** build, 15 testes, lint e tipos ok. Conferido no Chrome nos temas claro e escuro, e em 375 px: nenhuma rota tem rolagem horizontal, e o menu em gaveta abre. Um ajuste encontrado na revisão visual: o rótulo "0" da régua colidia com o marco de 14 dias e foi removido.
+
+## Fase 4c — Agente Gestor e Configurações (27/10/2026)
+
+**1. A discussão.** Propus deixar o agente de IA como roadmap: o CRM não tem sinal além de valor e tempo, e um chat genérico seria igual ao baseline. Eu decidi fazer, mas com regras minhas, que mudaram o desenho em três rodadas:
+- Primeiro pedi um agente que respondesse com os dados e, fora deles, trouxesse "práticas de mercado" sinalizadas, sem dizer "não sei".
+- Depois pedi uma tela de **Configurações** para a API e **nenhuma chave da empresa**: cada usuário usa a própria.
+- Por fim, mudei a direção: **o agente nunca fala fora do contexto**. Ele é um assistente de dados, como o "pergunte aos dados" de um Power BI ou Tableau, e precisa ser **ativo, não passivo**. A busca web de mercado foi removida.
+
+**2. O que foi construído:**
+- **Radar** (sem IA, sem custo): alertas calculados dos dados a cada acesso, por vendedor ou manager. Exemplos: 66 deals passam de 138 dias nos próximos 14 dias (US$ 116 mil esperados em risco); 190 deals na reta final; onde está o valor parado; quem precisa revisar a fila; deals prioritários sem conta. Cada alerta tem "Analisar" (pergunta pronta ao agente) e "Ver deals".
+- **Agente:** loop de tool use com o Claude (Opus 5.5 por padrão) sobre 7 ferramentas somente leitura (resumo do vendedor, detalhe do deal, lista de deals, fila de parados, visão do time, fatos da metodologia, radar). Responde por uma ferramenta `responder` com estrutura de painel: conclusão, até 4 KPIs, gráfico de barras opcional, deals citados, ações e próximas perguntas clicáveis.
+- **Contra números inventados:** a tabela de deals da resposta é montada pelo servidor a partir dos códigos citados, com os valores do motor de score, nunca do texto do modelo. Pergunta fora do escopo recebe um redirecionamento com três perguntas que ele sabe responder.
+- **Configurações:** chave, modelo (Opus, Sonnet ou Haiku 5.5), esforço e um "Testar conexão" que consulta o modelo sem gastar tokens. A chave fica no `localStorage` do usuário, vai ao servidor só no cabeçalho de cada pergunta e não é guardada. Fallback de recusa no servidor ativado para Opus e Sonnet.
+
+**3. Verificação:** 25 testes, incluindo as ferramentas do agente, a rota (sem chave → 401, modelo fora da lista → 400) e o radar com números conferidos contra o motor. Build e tipos ok. Telas conferidas por texto no Chrome; o screenshot do Chrome travou nessa etapa.
+
+**Não verificado:** a conversa real com a API, porque não há chave neste ambiente. Precisa ser testada com a chave do usuário.
