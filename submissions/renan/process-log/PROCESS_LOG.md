@@ -65,3 +65,27 @@ Ficaram de fora as skills duplicadas ou fora do escopo: `bencium-impact-designer
 **4. Backtest e o resultado incômodo.** Em 3 datas de corte, a chance de fechar ficou com AUC ≈ 0,5: nenhum modelo, nem a "taxa do vendedor", prevê ganho vs. perda neste CRM. Em vez de esconder, reescrevi a tese: priorizar pelo que é sabível. O valor esperado captura cerca de 50% da receita no top 20% (2,5× o acaso), e a regra de "parado" tira do topo os deals mortos, que seriam 47% do top 20% numa ordenação só por preço. A limitação de que a regra de parado não pôde ser validada no backtest está documentada.
 
 **5. Teste que garante a explicação.** Há um teste automatizado verificando que a soma dos pontos percentuais dos fatores fecha exatamente com a chance exibida. É o que permite mostrar o "recibo" do score sem arredondamento mentiroso.
+
+---
+
+## Fase 3 — Direção visual (27/10/2026)
+
+**1. Processo.** Usei a skill `bencium-innovative-ux-designer`: 10 direções só tipográficas (A–J), cada uma derivada de um fato do problema, como a régua de dias, o recibo do score, o ruído vs. sinal e o peso morto de 64%. Todas usam o mesmo texto de um deal real, e as fichas técnicas ficaram guardadas para eu ver só depois da primeira reação. O Claude não abriu as páginas: a avaliação visual foi minha.
+
+**2. Minha escolha.** A primeira reação foi aos números ("Chance 71%", "GTK 500"). Depois apontei E e G como finalistas e pedi a **E com a G**: a régua de dias como linguagem, a ficha campo/valor da G como voz de registro e o azul-marinho da G como modo escuro. O Claude sugeriu manter fonte e layout iguais nos dois temas, mudando só a paleta, para não criar duas identidades.
+
+**3. Ajustes antes de fixar, a meu pedido:** tema sistema/claro/escuro com botão, e a régua no celular. Abaixo de 720 px a régua é desligada, e um indicador em texto (`95/138`) passa a carregar o significado. Ele também serve a leitores de tela. Fixei a **E2**; as regras ficaram em `design/ROUND-2-CONTEXT.md`.
+
+**4. Desvio do método, registrado.** A skill pede uma busca independente de fontes, fora do Google Fonts. Pelo time-box, o Claude escolheu fontes OFL de fundições independentes que conhecia (Omnibus-Type, TypeTogether, Florian Karsten, Evil Martians etc.), verificou a licença no npm e as serviu via Fontsource. Várias delas também estão no catálogo do Google.
+
+## Fase 4 — Telas (27/10/2026)
+
+**1. Telas construídas:** Hoje (pauta por vendedor, posicionada na régua, com a fila de parados), Painel do deal (ficha e "recibo" do score), Pipeline (filtros na URL, tabela que vira pares campo/valor no celular), Time (higiene por vendedor, sem ranking) e Metodologia (achados e backtest lidos do `analysis.json`, sem números copiados à mão).
+
+**2. Problemas encontrados no caminho:**
+- O Next.js 16 veio com Cache Components ligado, e o build quebrou porque o menu usava `usePathname()` fora de `<Suspense>`. A correção: o shell estático mostra o menu sem destaque, e o destaque da página atual chega por streaming.
+- Uma utility do Tailwind v4 não aceita variantes se for declarada como classe de componente. O rótulo `field` virou `@utility` para funcionar como `before:field` nas tabelas do celular.
+- Na verificação em 375 px, a tela Time tinha 2 px de rolagem horizontal (números grandes em 2 colunas). Corrigido para 1 coluna abaixo de 480 px.
+- O texto de ação "Empurrar o fechamento: 75% fecham até o 88º dia" ficava estranho para um deal com 127 dias. Agora inclui "e nenhum depois do 138º".
+
+**3. Verificação:** build de produção, 15 testes, lint e tipos ok. Telas conferidas no Chrome (desktop, claro e escuro) e no navegador do app em 375 px, sem rolagem horizontal em nenhuma rota. O recibo do deal `1LY8CAXD` fecha a conta: 63,2% + 7,5 pp + 0,1 pp = 70,8%.

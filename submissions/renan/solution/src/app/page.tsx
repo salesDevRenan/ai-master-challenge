@@ -1,69 +1,95 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Suspense } from "react";
+import { DealCard } from "@/components/deal-card";
+import { asOptions, SelectField } from "@/components/select-field";
+import { count, pct, usd } from "@/lib/format";
+import { applyFilters, filterQuery, history, options, parseFilters, pipeline, summarize } from "@/lib/pipeline";
 
-export default function Home() {
+const FOCUS_SIZES = [5, 10, 20] as const;
+
+export default function TodayPage(props: PageProps<"/">) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <Suspense fallback={<p className="field">Carregando o pipeline…</p>}>
+      <Today searchParams={props.searchParams} />
+    </Suspense>
+  );
+}
+
+async function Today({ searchParams }: { searchParams: PageProps<"/">["searchParams"] }) {
+  const params = await searchParams;
+  const { agent } = parseFilters(params);
+  const requested = Number(params.foco);
+  const size = FOCUS_SIZES.find((n) => n === requested) ?? 10;
+
+  const mine = applyFilters(pipeline, { agent });
+  const { active, stalled, activeExpectedValue, stalledValueShare } = summarize(mine);
+  const focus = active.slice(0, size);
+
+  return (
+    <>
+      <form method="get" className="flex flex-wrap items-end gap-x-8 gap-y-4">
+        <SelectField name="vendedor" label="Vendedor" value={agent} options={asOptions(options.agents)} allLabel="Todos os vendedores" />
+        <label className="flex flex-col gap-1">
+          <span className="field">Deals na pauta</span>
+          <select name="foco" defaultValue={String(size)} className="control cursor-pointer">
+            {FOCUS_SIZES.map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </select>
+        </label>
+        <button type="submit" className="field min-h-11 cursor-pointer text-primary underline underline-offset-4">
+          Ver pauta
+        </button>
+      </form>
+
+      <h1 className="mt-[6vh] text-[clamp(34px,4.4vw,68px)] leading-none font-semibold tracking-[-0.03em]">Onde focar hoje</h1>
+      <p className="mt-3 max-w-[60ch] text-[17px] text-secondary">
+        {agent ?? "Todos os vendedores"} · {count(active.length)} deals ativos · valor esperado de {usd(activeExpectedValue)}. Ordenados por
+        valor esperado (chance × preço). A posição de cada deal acompanha os dias em que está aberto.
+      </p>
+
+      <div className="mt-[5vh] hidden justify-between min-[720px]:flex" aria-hidden="true">
+        <span className="field">0 dias</span>
+        <span className="field">{history.maxCycle} dias · maior ciclo já fechado</span>
+      </div>
+
+      {focus.length === 0 ? (
+        <p className="mt-6 text-[17px]">Nenhum deal ativo para este filtro.</p>
+      ) : (
+        <ol className="mt-2" aria-label="Deals priorizados">
+          {focus.map((scored, i) => (
+            <DealCard key={scored.deal.id} scored={scored} rank={i + 1} />
+          ))}
+        </ol>
+      )}
+
+      {active.length > focus.length && (
+        <p className="mt-6">
+          <Link href={`/pipeline${filterQuery({ agent })}`} className="link text-[17px]">
+            Ver todos os {count(active.length)} deals ativos
+          </Link>
+        </p>
+      )}
+
+      {stalled.length > 0 && (
+        <section aria-labelledby="parados" className="mt-[10vh] text-left min-[720px]:text-right">
+          <h2 id="parados" className="text-[clamp(22px,2.2vw,36px)] font-semibold tracking-[-0.02em] text-stalled">
+            {count(stalled.length)} deals parados há mais de {history.maxCycle}&nbsp;dias
+          </h2>
+          <p className="field mt-2 text-stalled">{pct(stalledValueShare)} do valor do pipeline aberto</p>
+          <p className="mt-3 text-[16px] text-secondary min-[720px]:ml-auto min-[720px]:max-w-[46ch]">
+            Nenhum dos {count(history.closedDeals)} deals já fechados levou mais que {history.maxCycle} dias. Revise ou desqualifique
+            esses deals para liberar tempo e limpar a previsão.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+          <p className="mt-3">
+            <Link href={`/pipeline${filterQuery({ agent, momentum: "stalled" })}`} className="link text-[17px] text-stalled">
+              Revisar a fila de parados
+            </Link>
+          </p>
+        </section>
+      )}
+    </>
   );
 }

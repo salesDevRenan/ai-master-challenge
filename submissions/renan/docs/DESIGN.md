@@ -20,11 +20,24 @@
 
 ## 3. Direção escolhida
 
-_Pendente._
+**E2**, fixada em 27/10/2026. Gerei 10 direções só tipográficas (A–J) com a skill `bencium-innovative-ux-designer`. Escolhi E e G como finalistas e pedi a E com a G: a régua de dias da E como linguagem e a ficha campo/valor da G como voz de registro e paleta do modo escuro. Antes de fixar, resolvi o tema claro/escuro/sistema e o comportamento da régua no celular.
+
+- **Elemento memorável:** a página é uma régua de 0 a 138 dias. Cada deal fica posicionado no dia em que está, e os parados ficam além do limite.
+- **Arquivos:** `design/round-1/` (A–J, E2 e as fichas de cada direção) e `design/ROUND-2-CONTEXT.md` (regras que governam as telas).
 
 ## 4. Tokens
 
-_Pendente: registrados aqui e em `solution/src/app/globals.css`._
+Fonte da verdade: `solution/src/app/globals.css`. Resumo:
+
+| Papel | Claro | Escuro |
+|---|---|---|
+| Fundo | #F0F2F5 | #10283F |
+| Primária | #12151A | #E4ECF3 |
+| Secundária | #5A6372 | #7FA2C2 |
+| Momento | #00736C | #5FD4C4 |
+| Parado | #C2410C | #F2C14E |
+
+Tipografia: Space Grotesk (decisão) e Martian Mono (registro do CRM), auto-hospedadas via Fontsource (OFL).
 
 ## 5. Requisitos não negociáveis
 

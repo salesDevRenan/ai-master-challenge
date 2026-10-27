@@ -60,7 +60,7 @@ function nextActionFor(momentum: Momentum, daysOpen: number | null, history: His
     case "progressing":
       return "Avançar a proposta e confirmar o decisor";
     case "closing":
-      return `Empurrar o fechamento: 75% dos ganhos fecham até o ${history.wonP75Cycle}º dia`;
+      return `Empurrar o fechamento: 75% dos ganhos fecham até o ${history.wonP75Cycle}º dia, e nenhum depois do ${history.maxCycle}º`;
     case "stalled":
       return `Revisar ou desqualificar: aberto há ${daysOpen} dias, e nenhum deal fechou depois de ${history.maxCycle}`;
   }
