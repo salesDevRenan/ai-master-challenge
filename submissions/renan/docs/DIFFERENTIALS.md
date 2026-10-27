@@ -30,9 +30,9 @@ O baseline só ordena. Aqui existe uma fila explícita de **deals para revisar o
 
 Modelo de **janela de fechamento**: com base no ciclo dos deals ganhos, cada deal aberto recebe um status (no ritmo, na janela, esfriando, parado). A prioridade sobe quando o deal entra na janela e cai quando a chance de ainda fechar despenca.
 
-## 4. Plano da semana com restrição de tempo
+## 4. Pauta do tamanho do tempo disponível
 
-O vendedor não tem tempo infinito. Ele informa quantos deals consegue trabalhar a fundo nesta semana, e a ferramenta monta a pauta que **maximiza o valor esperado** nesse limite: um problema de alocação, não uma ordenação.
+O vendedor não tem tempo infinito. Na tela Hoje ele escolhe quantos deals cabem na pauta (6, 10 ou 20), e a ferramenta mostra os de maior valor esperado entre os que ainda têm chance. Os parados ficam fora.
 
 ## 5. Alavancas acionáveis para o manager
 
@@ -70,4 +70,4 @@ Direção visual própria, escolhida por mim entre propostas geradas com as skil
 
 ---
 
-**Status:** itens 1, 2, 3 e 6 são o núcleo e não saem do escopo. Itens 4 e 5 seguem a regra de corte de [PLAN.md](./PLAN.md).
+**Status final:** todos os itens foram implementados. O item 4 ficou mais simples que o plano original (escolha do tamanho da pauta em vez de uma otimização por tempo).

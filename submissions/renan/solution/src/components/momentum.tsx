@@ -12,12 +12,6 @@ const CHIP: Record<Momentum, string> = {
   stalled: "bg-stalled-soft text-stalled",
 };
 
-export function momentumText(momentum: Momentum) {
-  if (momentum === "stalled") return "text-stalled";
-  if (momentum === "prospecting") return "text-secondary";
-  return "text-moment";
-}
-
 /** Chip de status: "Reta final · 95/138". O número carrega a régua em qualquer largura. */
 export function MomentumChip({ scored }: { scored: ScoredDeal }) {
   return (

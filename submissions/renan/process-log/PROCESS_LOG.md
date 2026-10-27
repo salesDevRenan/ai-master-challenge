@@ -139,3 +139,15 @@ Ficaram de fora as skills duplicadas ou fora do escopo: `bencium-impact-designer
   - Confusão resolvida: "Dev-sales-renan" e "salesDevRenan" são a mesma conta (nome de exibição vs. usuário), conferido pelo ID na API do GitHub.
   - Resultado: https://regua-lead-scorer.vercel.app. As 8 rotas respondem 200, sem login, e o agente sem chave responde 401 como esperado.
 - **Regra do G4 conferida:** nenhum arquivo fora de `submissions/renan` foi alterado.
+
+## Fase 7 — Meus testes e revisão final (27/10/2026)
+
+**1. Testes manuais (feitos por mim).** Testei a aplicação localmente pela interface, navegando pelas telas. Eles complementam os 34 testes automatizados e as verificações que o Claude fez no navegador.
+
+**2. Revisão da estrutura (a meu pedido).** Pedi ao Claude uma revisão de toda a submissão antes da avaliação. O que ele encontrou e corrigiu:
+- **`docs/ARCHITECTURE.md` estava desatualizado:** citava arquivos e funções que mudaram de nome (`pipeline.json`, `domain/config.ts`, `explain()`), um "painel lateral" e "deals parecidos" que não existem, além de Prettier e gráficos em SVG que nunca entraram. Foi reescrito com o estado final.
+- **`docs/DIFFERENTIALS.md` prometia um "plano da semana" otimizado por tempo.** O que existe é a escolha do tamanho da pauta (6, 10 ou 20 deals de maior valor esperado). O texto foi corrigido para não prometer mais do que entrega.
+- **Código morto removido:** uma função de cor de momento sem uso e duas constantes de stage nunca usadas.
+- **Mantido:** a estrutura de pastas e a separação dados → motor → telas/agente. Nenhum arquivo fora de `submissions/renan`.
+
+Testes, tipos, lint e build continuam passando. As correções entraram no mesmo PR (#223), seguindo a regra do G4 de um PR por pessoa.

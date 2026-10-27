@@ -1,8 +1,5 @@
 export type DealStage = "Prospecting" | "Engaging" | "Won" | "Lost";
 
-export const OPEN_STAGES: readonly DealStage[] = ["Prospecting", "Engaging"];
-export const CLOSED_STAGES: readonly DealStage[] = ["Won", "Lost"];
-
 export interface Account {
   name: string;
   sector: string;
