@@ -3,7 +3,7 @@
 ## Sobre mim
 
 - **Nome:** Renan Garcia Oliveira
-- **LinkedIn:** _a preencher_
+- **LinkedIn:** [linkedin.com/in/renan-garcia-022951127](https://www.linkedin.com/in/renan-garcia-022951127/)
 - **Challenge escolhido:** 003 — Lead Scorer (Vendas / RevOps)
 
 ---
