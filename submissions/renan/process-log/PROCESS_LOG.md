@@ -28,6 +28,10 @@ Ficaram de fora as skills duplicadas ou fora do escopo: `bencium-impact-designer
 
 **5. Arquitetura.** Docs criados antes do código: `ARCHITECTURE.md`, `SCORING.md` com as hipóteses a validar, `DESIGN.md` e `PLAN.md` com time-box. A decisão central é ter um único motor de scoring em TypeScript, usado tanto pela análise/backtest quanto pela UI.
 
+**6. Diferenciais vs. baseline.** Lembrei o Claude de que o G4 já rodou o desafio em vários modelos, inclusive o mesmo que estou usando. Pedi uma solução que fosse além disso. Resultado: `docs/DIFFERENTIALS.md`, que descreve o que o baseline entrega e define 9 diferenciais, com 4 que não saem do escopo.
+
+**7. Fork e push.** O Claude fez o fork pelo Chrome (extensão Claude in Chrome) na conta `salesDevRenan`. O primeiro push falhou com 403: o Git Credential Manager usava a credencial salva de outra conta (`Leads4b`). A correção foi colocar o usuário na URL do remote (`https://salesDevRenan@github.com/...`), o que fez o GCM usar a credencial certa. O remote do G4 ficou como `upstream`.
+
 ---
 
 ## Fase 1 — Dados
