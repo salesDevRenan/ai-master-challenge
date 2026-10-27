@@ -11,7 +11,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "data": "tsx scripts/build-data.ts",
-    "analyze": "tsx scripts/analyze.ts"
+    "analyze": "npm run data && tsx scripts/analyze.ts"
   },
   "dependencies": {
     "next": "16.4.3",

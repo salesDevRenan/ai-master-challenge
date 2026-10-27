@@ -9,20 +9,20 @@ O G4 já rodou este desafio em vários modelos (Claude, GPT, Gemini). Colando o 
 
 Esse é o piso. Cada item abaixo existe para ficar **acima** dele e responde a uma frase da Head de RevOps.
 
-## 1. Um score provado, não apenas declarado
+## 1. Um score testado, e honesto sobre o resultado
 
 > *"Preciso de algo funcional."*
 
-- **Backtest temporal:** o score é calculado com dados até uma data de corte e avaliado nos deals que fecharam depois.
-- **Comparação com alternativas ingênuas:** ordenar por valor, ordenar por stage, ordem aleatória. A tela `/metodologia` mostra quanto valor cada estratégia teria capturado no top 20% do pipeline.
-- **Calibração:** "70% de chance" precisa significar ~70% de vitória observada. Mostramos a curva.
-- Se alguma feature "óbvia" não discrimina nada, isso é dito e ela sai do score. O baseline nunca descobre isso, porque não olha os dados.
+- **Backtest temporal em 3 datas de corte**, comparando com ordenar por preço, só tempo, taxa bruta do vendedor e ordem aleatória ([SCORING.md §4](./SCORING.md)).
+- **O teste mostrou que ninguém prevê ganho vs. perda neste CRM** (AUC ≈ 0,5). Em vez de esconder isso, a ferramenta foi redesenhada em cima desse fato: prioriza pelo que é sabível (valor e tempo) e não vende uma "probabilidade" como se fosse precisa.
+- **Pesos aprendidos por Bayes empírico:** produto, setor e porte recebem peso zero porque suas diferenças cabem no ruído estatístico. O baseline daria 20% a cada um.
+- **Rankings de vendedor são ruído** (qui-quadrado compatível com taxas iguais). Não mostramos ranking que puniria pessoas por sorte; o baseline mostraria.
 
 ## 2. O que largar, não só o que atacar
 
 > *"Gastam tempo demais em deals que não vão fechar."*
 
-O baseline só ordena. Aqui existe uma lista explícita de **deals para desqualificar ou revisar**: deals parados muito além do ciclo em que os ganhos costumam fechar e com baixa chance. Liberar tempo é metade do problema.
+O baseline só ordena. Aqui existe uma fila explícita de **deals para revisar ou desqualificar**: os abertos há mais de 138 dias, quando nenhum dos 6.711 deals fechados levou mais que isso. São **81% dos deals em Engaging e 64% do valor do pipeline aberto**. Ordenando só por preço, 47% do topo da lista seriam esses deals mortos. Liberar tempo é metade do problema.
 
 ## 3. O momento certo, não só o deal certo
 
@@ -38,15 +38,18 @@ O vendedor não tem tempo infinito. Ele informa quantos deals consegue trabalhar
 
 O baseline mostra números. Aqui o manager recebe **sugestões**:
 
-- deals em que outro vendedor do mesmo escritório tem taxa de vitória muito maior naquele produto ou setor (candidatos a apoio ou pareamento);
-- vendedores com pipeline concentrado em deals parados (pauta de coaching);
-- tudo com o número que justifica a sugestão.
+- vendedores com o pipeline concentrado em deals parados (pauta de higiene e coaching);
+- deals sem conta cadastrada, que travam qualquer análise;
+- o padrão de fim de trimestre (80,7% de vitória no último mês vs. 52,3% nos outros), com a ressalva de que pode ser artefato.
+
+_Descartado após os dados:_ a ideia original de sugerir pareamento com o "vendedor que ganha mais naquele produto". O teste mostrou que essa diferença é ruído (correlação de −0,08 entre semestres).
 
 ## 6. Explicação como um "recibo"
 
 Cada score é decomposto em fatores somáveis (log-odds convertidos em pontos), escritos em linguagem de vendedor e comparados com a média:
 
-> **82** · base do pipeline 63% · **+9** GTX Pro fecha 71% em contas de Tecnologia · **+6** você ganha 74% neste produto · **−4** 48 dias em Engaging (ganhos fecham em ~40) · **= janela de fechamento: ligar esta semana**
+> Deal real, `1LY8CAXD` (GTK 500, Rosalina Dieter), **score 100**:
+> **Chance 71%** = base 63,2% · **+7,5 pp** aberto há 95 dias (já passou da fase em que as perdas acontecem) · **+0,1 pp** vendedora · produto, setor e porte: 0 pp (diferenças dentro do ruído) · **× US$ 26.768 = valor esperado US$ 18,9 mil · Reta final: empurrar o fechamento**
 
 ## 7. Qualidade de dados como feature do produto
 

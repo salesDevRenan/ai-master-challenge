@@ -38,6 +38,7 @@ export interface Deal {
   listPrice: number;
   account: string | null;
   sector: string | null;
+  accountEmployees: number | null;
   engageDate: string | null;
   closeDate: string | null;
   closeValue: number | null;

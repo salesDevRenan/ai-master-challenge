@@ -93,6 +93,7 @@ export function buildDataset(raw: RawTables): Dataset {
       listPrice: product.salesPrice,
       account: account?.name ?? null,
       sector: account?.sector ?? null,
+      accountEmployees: account?.employees ?? null,
       engageDate: row.engage_date,
       closeDate: row.close_date,
       closeValue: row.close_value,

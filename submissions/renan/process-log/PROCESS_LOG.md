@@ -44,4 +44,24 @@ Ficaram de fora as skills duplicadas ou fora do escopo: `bencium-impact-designer
 
 **3. Perfil dos dados antes de codar.** Antes de escrever o parser, pedi um perfil rápido das 4 tabelas. Ele confirmou a hipótese H4 e trouxe um achado que eu não esperava: **68% dos deals abertos não têm conta associada**. Isso muda o desenho do score: setor e porte da conta não podem ser o núcleo, porque faltam para a maioria do pipeline. Registrado em `docs/SCORING.md` §5.1.
 
-**4. `build-data`.** Parser com validação Zod (erro com arquivo, linha e campo), normalização (GTXPro, technolgy), join das 4 tabelas e relatório de qualidade gerado junto com o dataset. Os testes pegaram um caso de borda real: sem nenhuma data no pipeline, o cálculo da data de referência quebrava com um erro genérico do JavaScript. Agora ele falha com uma mensagem clara.
+**4. Parser de dados (`build-data`).** Parser com validação Zod (erro com arquivo, linha e campo), normalização (GTXPro, technolgy), join das 4 tabelas e relatório de qualidade gerado junto com o dataset. Os testes pegaram um caso de borda real: sem nenhuma data no pipeline, o cálculo da data de referência quebrava com um erro genérico do JavaScript. Agora ele falha com uma mensagem clara.
+
+---
+
+## Fase 2 — Exploração, motor de score e backtest (27/10/2026)
+
+**1. Explorar antes de pontuar.** Antes de escrever o score, pedi a taxa de vitória por cada fator, os ciclos de Won e de Lost e a idade dos deals abertos. O resultado derrubou metade do plano original:
+- Produto, setor, porte, escritório e manager variam só entre 60% e 65%, dentro do ruído (H1 confirmada).
+- O vendedor parecia forte (55% a 70%), mas o qui-quadrado é compatível com taxas iguais, e a correlação entre semestres é fraca (H3 rejeitada).
+- **Nenhum deal fechado levou mais de 138 dias, e 81% dos deals em Engaging já passaram disso.**
+
+**2. O que eu decidi com base nisso:**
+- **Não usar pesos fixos.** Pesos aprendidos por Bayes empírico: o próprio dado zera os fatores que são ruído.
+- **Não mostrar ranking de vendedores.** Puniria pessoas por sorte. Também descartei a ideia de sugerir pareamento com o "vendedor que ganha mais no produto", que estava no `DIFFERENTIALS.md`.
+- **Criar a fila de "parados"** como a principal alavanca de "parar de perder tempo".
+
+**3. Erro da IA pego na revisão.** Na primeira versão do `SCORING.md`, o Claude citou números de scripts exploratórios avulsos: correlação de 0,10 entre semestres e faixas de escritório e manager. Pela regra do projeto, todo número precisa ser reproduzível pelo `npm run analyze`. Ao mover o cálculo para o script, a correlação deu **0,32**, não 0,10, porque a data que divide os semestres era diferente. O doc foi corrigido para o valor reproduzível. Lição: número de exploração rápida não vai para documento sem passar pelo script oficial.
+
+**4. Backtest e o resultado incômodo.** Em 3 datas de corte, a chance de fechar ficou com AUC ≈ 0,5: nenhum modelo, nem a "taxa do vendedor", prevê ganho vs. perda neste CRM. Em vez de esconder, reescrevi a tese: priorizar pelo que é sabível. O valor esperado captura cerca de 50% da receita no top 20% (2,5× o acaso), e a regra de "parado" tira do topo os deals mortos, que seriam 47% do top 20% numa ordenação só por preço. A limitação de que a regra de parado não pôde ser validada no backtest está documentada.
+
+**5. Teste que garante a explicação.** Há um teste automatizado verificando que a soma dos pontos percentuais dos fatores fecha exatamente com a chance exibida. É o que permite mostrar o "recibo" do score sem arredondamento mentiroso.
